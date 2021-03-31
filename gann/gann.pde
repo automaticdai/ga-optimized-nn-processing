@@ -48,11 +48,12 @@ void draw() {
 //
 
 void disp_debug_info() {
-  String s = "iter: " + iter;
-  text(s, 0, 10);
   
-  s = "step: : " + step;
-  text(s, 0, 20);
+  String s = "iter: " + iter;
+  text(s, 10, 20);
+  
+  s = "step: " + step;
+  text(s, 10, 30);
 }
 
 

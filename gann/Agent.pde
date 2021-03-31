@@ -7,17 +7,18 @@ public class Agent {
   float   error_avg = 0;
   long    iter      = 1;
   
-  float[][] weight_in = new float[2][8];
-  float[][] weight_out = new float[8][2];
+  int number_of_hidden = 12;
+  float[][] weight_in = new float[2][number_of_hidden];
+  float[][] weight_out = new float[number_of_hidden][2];
   
   Agent() {
     for (int j = 0; j < 2; j++) {
-      for (int i = 0; i < 8; i++) {
+      for (int i = 0; i < number_of_hidden; i++) {
         weight_in[j][i] = random(-0.1, 0.1);
       }
     }
     
-   for (int j = 0; j < 8; j++) {
+   for (int j = 0; j < number_of_hidden; j++) {
       for (int i = 0; i < 2; i++) {
         weight_out[j][i] = random(-0.1, 0.1);
       }
@@ -33,7 +34,7 @@ public class Agent {
     PVector center = new PVector(height/2, width/2);
     PVector error  = PVector.sub(center, loc);
     
-    float[] weight_fire = new float[8];
+    float[] weight_fire = new float[number_of_hidden];
     PVector acc_fire = new PVector(0, 0);
     
     error_avg = error_avg * iter / (iter + 1) + error.mag() / (iter + 1);
@@ -73,10 +74,16 @@ public class Agent {
   }
   
   public void show() {
-    fill(0, 100);
+    pushMatrix();
+    
     float r = constrain(error_avg/10, 1, 10);
-    ellipse(loc.x, loc.y, r, r);
+    fill(10*(10-r));
+    
+    translate(loc.x, loc.y);
+    rotate(vel.heading());
+    triangle(-5, 9, 0, 0, 5, 9);
     //showWeights();
+    popMatrix();
   }
   
   public void showWeights() {
@@ -90,7 +97,7 @@ public class Agent {
   
   public void regenerate() {
     for (int j = 0; j < 2; j++) {
-      for (int i = 0; i < 8; i++) {
+      for (int i = 0; i < number_of_hidden; i++) {
         weight_in[j][i] = random(-0.01, 0.01);
       }
     }
