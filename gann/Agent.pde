@@ -7,7 +7,7 @@ public class Agent {
   float   error_avg = 0;
   long    iter      = 1;
   
-  int number_of_hidden = 12;
+  int number_of_hidden = 8;
   float[][] weight_in = new float[2][number_of_hidden];
   float[][] weight_out = new float[number_of_hidden][2];
   
@@ -26,12 +26,12 @@ public class Agent {
     
     float ang = random(TWO_PI);
     
-    loc = new PVector(400*sin(ang) + width/2, 400*cos(ang) + height /2);
+    loc = new PVector(400*sin(ang) + width/2, 400*cos(ang) + height/2);
     
   }
   
   public void move() {
-    PVector center = new PVector(height/2, width/2);
+    PVector center = new PVector(width/2, height/2);
     PVector error  = PVector.sub(center, loc);
     
     float[] weight_fire = new float[number_of_hidden];

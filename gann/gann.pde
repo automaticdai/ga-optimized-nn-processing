@@ -2,15 +2,18 @@ import java.util.*;
 
 ArrayList<Agent> agents = new ArrayList<Agent>();
 
-int population = 200;
+final int population = 200;
+final int max_steps = 500;
+final int max_iteration = 100;
 
 float[] fitness_cdf;
 
 int iter = 0;
 int step = 0;
+float avg_score = 0;
 
 void setup() {
-  size(800, 800);
+  size(1024, 768);
   
   // initilize population
   for (int i = 0; i < population; i++) {
@@ -36,7 +39,7 @@ void draw() {
   
   step += 1;
   
-  if (step == 500) {
+  if (step >= max_steps) {
     evoluation();
     
     iter += 1;
@@ -49,11 +52,13 @@ void draw() {
 
 void disp_debug_info() {
   
+  textSize(32);
+  
   String s = "iter: " + iter;
-  text(s, 10, 20);
+  text(s, 10, 30);
   
   s = "step: " + step;
-  text(s, 10, 30);
+  text(s, 10, 60);
 }
 
 
@@ -72,6 +77,7 @@ void evoluation() {
         fitness_cdf[i] += fitness_cdf[i - 1]; 
       }
   }
+  
   //println(fitness_cdf);
   
   // generate population
@@ -108,7 +114,7 @@ Agent crossover(Agent parentA, Agent parentB) {
   
   // weight_in
   for (int j = 0; j < 2; j++) {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < child.number_of_hidden; i++) {
       float s = random(1);
       if (s > 0.5) {
         child.weight_in[j][i] = parentA.weight_in[j][i];
@@ -122,7 +128,7 @@ Agent crossover(Agent parentA, Agent parentB) {
   }
   
   // weight_out
-  for (int j = 0; j < 8; j++) {
+  for (int j = 0; j < child.number_of_hidden; j++) {
     for (int i = 0; i < 2; i++) {
       float s = random(1);
       if (s > 0.5) {
